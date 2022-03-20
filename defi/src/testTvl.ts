@@ -181,9 +181,17 @@ const handler1 = async (_event: any) => {
     data[ch] = final[final.length - 1];
   });
 
-  data.list = list;
+  const pTotals: any = {};
 
-  return data;
+  list.forEach((item) => {
+    Object.entries(item.chainTvls).map(([chain, values]) => {
+      if (chain.includes('Ethereum')) {
+        pTotals[chain] = (pTotals[chain] || 0) + values.tvl;
+      }
+    });
+  });
+
+  return { chartTotals: data, protocolTotals: pTotals };
 };
 
 const handler = async (event: AWSLambda.APIGatewayEvent): Promise<IResponse> => {
