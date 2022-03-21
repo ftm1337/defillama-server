@@ -172,7 +172,11 @@ const handler1 = async (_event: any) => {
     })
   );
 
-  const list = trimmedResponse.filter((p) => p.category !== 'Chain').filter((p) => p.chains.includes('Ethereum'));
+  const list = trimmedResponse
+    .filter((p) => p.category !== 'Chain')
+    .filter((p) => {
+      return p.chains.includes('Ethereum') && p.category !== 'Bridge';
+    });
 
   const data: any = {};
 
